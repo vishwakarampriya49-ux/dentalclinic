@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hamare Baare Mein – Makhan Bhog Sweets & Bakers</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Tiro+Devanagari+Hindi&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c8972a;
+    --gold-light: #f0c94a;
+    --gold-dark: #8a6010;
+    --cream: #fdf6e8;
+    --deep: #1a0a00;
+    --rust: #8b2500;
+    --saffron: #f5a623;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold-light);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.12s ease;
+    mix-blend-mode: difference;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(26,10,0,0.95), transparent);
+    backdrop-filter: blur(6px);
+  }
+  .nav-brand img {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  display: flex;
+  align-items: center;
+}
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(253,246,232,0.65);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+
+  /* ── PAGE HERO ── */
+  #page-hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: 80px;
+  }
+
+  .mandala-bg {
+    position: absolute;
+    width: 700px; height: 700px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(200,150,40,0.06);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: mandalaSpin 60s linear infinite;
+  }
+  .mandala-bg::before {
+    content: '';
+    position: absolute;
+    inset: 40px;
+    border: 1px solid rgba(200,150,40,0.06);
+    border-radius: 50%;
+  }
+  .mandala-bg::after {
+    content: '';
+    position: absolute;
+    inset: 90px;
+    border: 1px solid rgba(200,150,40,0.06);
+    border-radius: 50%;
+  }
+  @keyframes mandalaSpin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold-light);
+    opacity: 0;
+    animation: floatUp var(--dur, 6s) ease-in-out infinite var(--delay, 0s);
+  }
+  @keyframes floatUp {
+    0%   { opacity: 0; transform: translateY(0) scale(0); }
+    20%  { opacity: 0.7; }
+    80%  { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-120px) scale(1.5); }
+  }
+
+  .page-hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+  }
+
+  .logo-devanagari {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--gold-light);
+    letter-spacing: 0.15em;
+    opacity: 0;
+    animation: fadeIn 1s ease 0.3s forwards;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    background: linear-gradient(135deg, #f0c94a 0%, #c8972a 40%, #fff5cc 70%, #c8972a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: slideUp 0.9s cubic-bezier(.16,1,.3,1) 0.5s forwards;
+  }
+
+  .page-sub {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: rgba(253,246,232,0.6);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 12px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1s forwards;
+  }
+
+  .ornament-line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 16px auto;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── 3D ROTATING SCENE ── */
+  .scene-3d-small {
+    position: absolute;
+    inset: 0;
+    perspective: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .orbit-small {
+    width: 380px; height: 380px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: orbitSpin 20s linear infinite;
+    opacity: 0.35;
+  }
+
+  @keyframes orbitSpin {
+    from { transform: rotateY(0deg) rotateX(12deg); }
+    to   { transform: rotateY(360deg) rotateX(12deg); }
+  }
+
+  .sweet-item {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform-style: preserve-3d;
+    width: 60px; height: 60px;
+    margin: -30px;
+  }
+  .sweet-face {
+    width: 60px; height: 60px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 8px 30px rgba(200,150,40,0.4);
+    backface-visibility: hidden;
+    border: 1px solid rgba(240,200,80,0.3);
+  }
+  .sweet-item:nth-child(1)  { transform: rotateY(0deg)   translateZ(160px); }
+  .sweet-item:nth-child(2)  { transform: rotateY(60deg)  translateZ(160px); }
+  .sweet-item:nth-child(3)  { transform: rotateY(120deg) translateZ(160px); }
+  .sweet-item:nth-child(4)  { transform: rotateY(180deg) translateZ(160px); }
+  .sweet-item:nth-child(5)  { transform: rotateY(240deg) translateZ(160px); }
+  .sweet-item:nth-child(6)  { transform: rotateY(300deg) translateZ(160px); }
+  .sf1 { background: radial-gradient(circle at 30% 30%, #d4a843, #8b5e00); }
+  .sf2 { background: radial-gradient(circle at 30% 30%, #e8c0c0, #9b4040); }
+  .sf3 { background: radial-gradient(circle at 30% 30%, #ffe0a0, #c08000); }
+  .sf4 { background: radial-gradient(circle at 30% 30%, #c8e4c8, #3a7a3a); }
+  .sf5 { background: radial-gradient(circle at 30% 30%, #f8d0a8, #b86020); }
+  .sf6 { background: radial-gradient(circle at 30% 30%, #e0d0f0, #7040b0); }
+
+  /* ── ABOUT MAIN SECTION ── */
+  #about-main {
+    padding: 80px 24px 60px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    margin-bottom: 80px;
+  }
+
+  .revealEl {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s ease;
+  }
+  .revealEl.visible { opacity: 1; transform: translateY(0); }
+
+  .about-visual-3d {
+    position: relative;
+    height: 360px;
+    perspective: 700px;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s ease;
+  }
+  .about-visual-3d.visible { opacity: 1; transform: translateX(0); }
+
+  /* 3D Plate spin */
+  .plate-3d {
+    width: 220px; height: 220px;
+    margin: 60px auto;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: plateSpin 12s ease-in-out infinite;
+  }
+  @keyframes plateSpin {
+    0%, 100% { transform: rotateX(20deg) rotateY(0deg); }
+    50%       { transform: rotateX(20deg) rotateY(180deg); }
+  }
+  .plate-base {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #e8c060, #8b5e00);
+    box-shadow: 0 0 40px rgba(200,150,40,0.4), inset 0 -10px 30px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+  }
+  .plate-back {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #c86030, #500000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    transform: translateX(-50%) rotateY(180deg);
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0; left: 50%;
+  }
+
+  /* Floating badges around the plate */
+  .float-badge {
+    position: absolute;
+    background: linear-gradient(135deg, rgba(200,150,40,0.15), rgba(200,150,40,0.05));
+    border: 1px solid rgba(200,150,40,0.3);
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    color: var(--gold-light);
+    letter-spacing: 0.1em;
+    backdrop-filter: blur(4px);
+  }
+  .float-badge:nth-child(2) {
+    top: 0; right: 0;
+    animation: floatBadge 4s ease-in-out infinite;
+  }
+  .float-badge:nth-child(3) {
+    bottom: 20px; left: 0;
+    animation: floatBadge 4s ease-in-out 1.5s infinite;
+  }
+  .float-badge:nth-child(4) {
+    bottom: 60px; right: 10px;
+    animation: floatBadge 4s ease-in-out 3s infinite;
+  }
+  @keyframes floatBadge {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-8px); }
+  }
+
+  .about-text-block {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all 0.8s ease 0.2s;
+  }
+  .about-text-block.visible { opacity: 1; transform: translateX(0); }
+
+  .section-label {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .about-text-block h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  .about-text-block p {
+    color: rgba(253,246,232,0.72);
+    line-height: 1.9;
+    margin-bottom: 16px;
+    font-size: 1.05rem;
+  }
+
+  /* Stats */
+  .stats-row {
+    display: flex;
+    gap: 28px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: rgba(253,246,232,0.5);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── VALUES SECTION ── */
+  #values {
+    padding: 80px 24px;
+    background: linear-gradient(180deg, transparent, rgba(200,150,40,0.04), transparent);
+  }
+
+  .values-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    text-align: center;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 16px;
+  }
+
+  .section-center-label {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .value-card {
+    background: linear-gradient(145deg, rgba(200,150,40,0.08), rgba(26,10,0,0.9));
+    border: 1px solid rgba(200,150,40,0.2);
+    border-radius: 16px;
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px) rotateX(8deg);
+    transition: all 0.6s cubic-bezier(.16,1,.3,1);
+    transform-style: preserve-3d;
+    cursor: default;
+  }
+  .value-card.visible {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+  .value-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(200,150,40,0.12), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .value-card:hover::before { opacity: 1; }
+  .value-card:hover {
+    border-color: rgba(200,150,40,0.5);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 20px 60px rgba(200,150,40,0.15);
+  }
+
+  .value-icon { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+  .value-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+  }
+  .value-title-hi {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.95rem;
+    color: var(--saffron);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .value-desc {
+    font-size: 0.95rem;
+    color: rgba(253,246,232,0.65);
+    line-height: 1.7;
+  }
+
+  /* ── STORY TIMELINE ── */
+  #story {
+    padding: 80px 24px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .timeline {
+    position: relative;
+    margin-top: 60px;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.6s ease;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+
+  .timeline-dot {
+    position: absolute;
+    left: -36px; top: 6px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 12px rgba(200,150,40,0.6);
+    border: 2px solid var(--deep);
+  }
+
+  .timeline-year {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .timeline-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+  .timeline-text {
+    color: rgba(253,246,232,0.65);
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+
+  /* ── CTA BOTTOM ── */
+  #cta-bottom {
+    padding: 80px 24px;
+    text-align: center;
+    background: linear-gradient(180deg, transparent, rgba(200,150,40,0.04), transparent);
+  }
+
+  .cta-btn {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 16px 44px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+    color: var(--deep);
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.3s;
+    box-shadow: 0 8px 30px rgba(200,150,40,0.3);
+    margin-right: 16px;
+    margin-bottom: 12px;
+  }
+  .cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 50px rgba(200,150,40,0.5);
+  }
+  .cta-btn-outline {
+    display: inline-block;
+    margin-top: 28px;
+    padding: 15px 44px;
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    border-radius: 50px;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.3s;
+    margin-bottom: 12px;
+  }
+  .cta-btn-outline:hover {
+    background: var(--gold);
+    color: var(--deep);
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--gold-light);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .cta-desc {
+    color: rgba(253,246,232,0.65);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(200,150,40,0.12);
+  }
+  footer p {
+    color: rgba(253,246,232,0.35);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 680px) {
+    .about-grid { grid-template-columns: 1fr; gap: 36px; }
+    .nav-links { display: none; }
+    .stats-row { gap: 16px; }
+  }
+
+  .footer-container {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* LEFT */
+.footer-left {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-left h2 {
+  color: #f0c94a;
+  margin-bottom: 10px;
+}
+
+.footer-left p {
+  color: rgba(253,246,232,0.7);
+}
+
+/* RIGHT */
+.footer-right {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  min-width: 300px;
+}
+
+.footer-links h3,
+.footer-contact h3 {
+  color: #c8972a;
+  margin-bottom: 10px;
+}
+
+.footer-links ul {
+  list-style: none;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: rgba(253,246,232,0.7);
+}
+
+.footer-links a:hover {
+  color: #f0c94a;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+  }
+
+  .footer-right {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <div class="nav-brand">
+  <img src="dental.png" alt="Makhan Bhog Logo">
+</div>
+  <ul class="nav-links">
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="index.html#menu">Menu</a></li>
+    <li><a href="hamare_baare_mein.html" class="active">Hamare Baare Mein</a></li>
+    <li><a href="sampark.html">Sampark</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<section id="page-hero">
+  <div class="mandala-bg"></div>
+
+  <div id="particles" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1"></div>
+
+  <!-- Subtle 3D orbit in bg -->
+  <div class="scene-3d-small">
+    <div class="orbit-small">
+      <div class="sweet-item"><div class="sweet-face sf1">🦷</div></div>
+      <div class="sweet-item"><div class="sweet-face sf2">😁</div></div>
+      <div class="sweet-item"><div class="sweet-face sf3">🪥</div></div>
+      <div class="sweet-item"><div class="sweet-face sf4">🦷</div></div>
+      <div class="sweet-item"><div class="sweet-face sf5">😁</div></div>
+      <div class="sweet-item"><div class="sweet-face sf6">🫙</div></div>
+    </div>
+  </div>
+
+  <div class="page-hero-content" style="z-index:5">
+    <span class="logo-devanagari">॥ हमारे बारे में ॥</span>
+    <div class="ornament-line"></div>
+    <h1 class="page-title">About Our Clinic</h1>
+    <p class="page-sub">Healthy Smile, Happy Life</p>
+    <div class="ornament-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT MAIN -->
+<section id="about-main">
+  <div class="about-grid">
+    <!-- 3D Visual -->
+    <div class="about-visual-3d revealEl" id="visualBlock">
+      <div class="plate-3d">
+        <div class="plate-base">🦷</div>
+        <div class="plate-back">🍰</div>
+      </div>
+      <div class="float-badge">✔ 100% Hygienic</div>
+      <div class="float-badge">👨‍⚕️ Expert Doctors</div>
+      <div class="float-badge">🏥 Modern Clinic</div>
+    </div>
+
+    <!-- Text -->
+    <div class="about-text-block" id="textBlock">
+      <span class="section-label">हमारी कहानी</span>
+      <h2>Varanasi ki<br>Trusted Dental Clinic</h2>
+      <p>Family Dental Care mein hum aapki muskaan ko healthy aur beautiful banane ke liye dedicated hain. Har treatment advanced technology aur experienced doctors ke saath kiya jaata hai.</p>
+      <p>Hamari clinic mein hygiene, safety aur patient comfort sabse pehle aata hai. Hum har patient ko personalized care provide karte hain.</p>
+      <p>Chahe routine checkup ho ya advanced treatment — hum aapke saath har step par hain.</p>
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-num">500+</span>
+          <span class="stat-label">Happy Patients</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Safe</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">★4.5</span>
+          <span class="stat-label">Rating</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">7</span>
+          <span class="stat-label">Days Open</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section id="values">
+  <div class="values-inner">
+    <span class="section-center-label revealEl">हमारी विशेषताएँ</span>
+    <h2 class="section-title revealEl">Why Choose Our Clinic?</h2>
+
+    <div class="values-grid">
+      <div class="value-card revealEl">
+        <span class="value-icon">🦷</span>
+        <div class="value-title">Advanced Treatment</div>
+        
+        <p class="value-desc">Latest technology ke saath safe aur effective dental care.</p>
+      </div>
+
+      <div class="value-card">
+        <span class="value-icon">👨‍⚕️</span>
+        <div class="value-title">Expert Doctors</div>
+        <p class="value-desc">Experienced aur skilled dental professionals.</p>
+      </div>
+
+      <div class="value-card">
+        <span class="value-icon">🏥</span>
+        <div class="value-title">Hygienic Clinic</div>
+        <p class="value-desc">Clean aur sanitized environment for safe treatment.</p>
+      </div>
+
+      <div class="value-card">
+        <span class="value-icon">😊</span>
+        <div class="value-title">Patient Care</div>
+        <p class="value-desc">Friendly staff aur comfortable experience.</p>
+      </div>
+
+      <div class="value-card">
+        <span class="value-icon">⚡</span>
+        <div class="value-title">Quick Service</div>
+        <p class="value-desc">Fast aur efficient treatment without long wait.</p>
+      </div>
+
+      <div class="value-card">
+        <span class="value-icon">📞</span>
+        <div class="value-title">Easy Appointment</div>
+        <p class="value-desc">Call ya WhatsApp se easily booking karein.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta-bottom">
+  <div class="ornament-line"></div>
+  <h2 class="cta-title">Book Your Appointment Today!</h2>
+  <p class="cta-desc">Healthy aur confident smile ke liye aaj hi humse sampark karein.</p>
+  <div>
+    <a href="sampark.html" class="cta-btn">Contact Now →</a>
+    <a href="index.html#services" class="cta-btn-outline">Services Dekhein</a>
+  </div>
+  <div class="ornament-line"></div>
+</section>
+
+<!-- FOOTER -->
+<footer class="premium-footer">
+  <div class="footer-container">
+
+    <div class="footer-left">
+      <h2>Family Dental Care</h2>
+      <p>Healthy smile ke liye trusted dental clinic.</p>
+    </div>
+
+    <div class="footer-right">
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h3>Contact</h3>
+        <p>📍 Varanasi, Uttar Pradesh</p>
+        <p>📞 +91 9876543210</p>
+        <p>🕒 9 AM – 8 PM</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Family Dental Care | All Rights Reserved</p>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  function animRing() {
+    rx += (parseFloat(cursor.style.left||0) - rx) * 0.12;
+    ry += (parseFloat(cursor.style.top||0)  - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  // Particles
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const s = Math.random() * 4 + 2;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${Math.random()*40}%;--dur:${Math.random()*5+5}s;--delay:${Math.random()*6}s;`;
+    pc.appendChild(p);
+  }
+
+  // Card 3D hover
+  document.querySelectorAll('.value-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
+      const y = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(el => {
+      if (el.isIntersecting) el.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.revealEl, .value-card, .timeline-item, #visualBlock, #textBlock').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="hi">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Makhan Bhog Sweets & Bakers – Varanasi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Tiro+Devanagari+Hindi&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c8972a;
+    --gold-light: #f0c94a;
+    --gold-dark: #8a6010;
+    --cream: #fdf6e8;
+    --deep: #1a0a00;
+    --rust: #8b2500;
+    --saffron: #f5a623;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold-light);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.12s ease;
+    mix-blend-mode: difference;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* 3D rotating sweets scene */
+  .scene-3d {
+    position: absolute;
+    inset: 0;
+    perspective: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .orbit {
+    width: 500px; height: 500px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: orbitSpin 22s linear infinite;
+  }
+
+  @keyframes orbitSpin {
+    from { transform: rotateY(0deg) rotateX(12deg); }
+    to   { transform: rotateY(360deg) rotateX(12deg); }
+  }
+
+  .sweet-item {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform-style: preserve-3d;
+    width: 80px; height: 80px;
+    margin: -40px;
+  }
+
+  .sweet-face {
+    width: 80px; height: 80px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    box-shadow: 0 8px 30px rgba(200,150,40,0.4);
+    backface-visibility: hidden;
+    border: 1px solid rgba(240,200,80,0.3);
+  }
+
+  /* 8 sweets in circle */
+  .sweet-item:nth-child(1)  { transform: rotateY(0deg)   translateZ(210px); }
+  .sweet-item:nth-child(2)  { transform: rotateY(45deg)  translateZ(210px); }
+  .sweet-item:nth-child(3)  { transform: rotateY(90deg)  translateZ(210px); }
+  .sweet-item:nth-child(4)  { transform: rotateY(135deg) translateZ(210px); }
+  .sweet-item:nth-child(5)  { transform: rotateY(180deg) translateZ(210px); }
+  .sweet-item:nth-child(6)  { transform: rotateY(225deg) translateZ(210px); }
+  .sweet-item:nth-child(7)  { transform: rotateY(270deg) translateZ(210px); }
+  .sweet-item:nth-child(8)  { transform: rotateY(315deg) translateZ(210px); }
+
+  .sf1 { background: radial-gradient(circle at 30% 30%, #d4a843, #8b5e00); }
+  .sf2 { background: radial-gradient(circle at 30% 30%, #e8c0c0, #9b4040); }
+  .sf3 { background: radial-gradient(circle at 30% 30%, #ffe0a0, #c08000); }
+  .sf4 { background: radial-gradient(circle at 30% 30%, #c8e4c8, #3a7a3a); }
+  .sf5 { background: radial-gradient(circle at 30% 30%, #f8d0a8, #b86020); }
+  .sf6 { background: radial-gradient(circle at 30% 30%, #e0d0f0, #7040b0); }
+  .sf7 { background: radial-gradient(circle at 30% 30%, #ffeedd, #c07040); }
+  .sf8 { background: radial-gradient(circle at 30% 30%, #d0e8f8, #2060a0); }
+
+  /* Ambient particles */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold-light);
+    opacity: 0;
+    animation: floatUp var(--dur, 6s) ease-in-out infinite var(--delay, 0s);
+  }
+
+  @keyframes floatUp {
+    0%   { opacity: 0; transform: translateY(0) scale(0); }
+    20%  { opacity: 0.7; }
+    80%  { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-120px) scale(1.5); }
+  }
+
+  /* Logo + headline */
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .logo-devanagari {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--gold-light);
+    letter-spacing: 0.15em;
+    opacity: 0;
+    animation: fadeIn 1s ease 0.3s forwards;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #f0c94a 0%, #c8972a 40%, #fff5cc 70%, #c8972a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: slideUp 0.9s cubic-bezier(.16,1,.3,1) 0.5s forwards;
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: rgba(253,246,232,0.7);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 14px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1s forwards;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 10px 28px;
+    border: 1px solid var(--gold);
+    border-radius: 40px;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-light);
+    opacity: 0;
+    animation: fadeIn 1s ease 1.3s forwards;
+    pointer-events: all;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .hero-badge:hover {
+    background: var(--gold);
+    color: var(--deep);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    animation: fadeIn 1s ease 2s forwards;
+    z-index: 10;
+  }
+  .scroll-hint span {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: rgba(253,246,232,0.5);
+    text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Ornamental border top */
+  .ornament-line {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 16px auto;
+  }
+
+  /* ── SWEETS MENU ── */
+  #menu {
+    padding: 100px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.7s ease;
+  }
+  .section-label.visible { opacity: 1; transform: translateY(0); }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-align: center;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.7s ease 0.1s;
+  }
+  .section-title.visible { opacity: 1; transform: translateY(0); }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .menu-card {
+    background: linear-gradient(145deg, rgba(200,150,40,0.08), rgba(26,10,0,0.9));
+    border: 1px solid rgba(200,150,40,0.2);
+    border-radius: 16px;
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px) rotateX(8deg);
+    transition: all 0.6s cubic-bezier(.16,1,.3,1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+  }
+  .menu-card.visible {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+  .menu-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(200,150,40,0.12), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .menu-card:hover::before { opacity: 1; }
+  .menu-card:hover {
+    border-color: rgba(200,150,40,0.5);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 20px 60px rgba(200,150,40,0.15);
+  }
+
+  .card-emoji { font-size: 2.8rem; margin-bottom: 16px; display: block; }
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+  .card-name-hi {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 1rem;
+    color: var(--saffron);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .card-desc {
+    font-size: 0.95rem;
+    color: rgba(253,246,232,0.65);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .card-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .card-tag {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: var(--rust);
+    color: var(--cream);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    padding: 100px 24px;
+    background: linear-gradient(180deg, transparent, rgba(200,150,40,0.04), transparent);
+  }
+  .about-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  @media (max-width: 680px) {
+    .about-inner { grid-template-columns: 1fr; gap: 36px; }
+  }
+
+  .about-visual {
+    position: relative;
+    height: 340px;
+    perspective: 600px;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s ease;
+  }
+  .about-visual.visible { opacity: 1; transform: translateX(0); }
+
+  .plate-3d {
+    width: 220px; height: 220px;
+    margin: 60px auto;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: plateSpin 12s ease-in-out infinite;
+  }
+  @keyframes plateSpin {
+    0%, 100% { transform: rotateX(20deg) rotateY(0deg); }
+    50%       { transform: rotateX(20deg) rotateY(180deg); }
+  }
+
+  .plate-base {
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #e8c060, #8b5e00);
+    box-shadow: 0 0 40px rgba(200,150,40,0.4), inset 0 -10px 30px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    backface-visibility: hidden;
+  }
+  .plate-back {
+    position: absolute;
+    top: 0; left: 0;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #c86030, #500000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+  }
+
+  .about-text { opacity: 0; transform: translateX(40px); transition: all 0.8s ease 0.2s; }
+  .about-text.visible { opacity: 1; transform: translateX(0); }
+
+  .about-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .about-text p {
+    color: rgba(253,246,232,0.72);
+    line-height: 1.8;
+    margin-bottom: 14px;
+    font-size: 1.05rem;
+  }
+  .stats-row {
+    display: flex;
+    gap: 28px;
+    margin-top: 24px;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    color: rgba(253,246,232,0.5);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── SPECIALTY BANNER ── */
+  #specialty {
+    padding: 80px 24px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .marquee-wrap {
+    overflow: hidden;
+    border-top: 1px solid rgba(200,150,40,0.2);
+    border-bottom: 1px solid rgba(200,150,40,0.2);
+    padding: 20px 0;
+    margin: 40px 0;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 48px;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .marquee-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--saffron);
+    flex-shrink: 0;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    padding: 100px 24px 60px;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .contact-card {
+    background: linear-gradient(145deg, rgba(200,150,40,0.1), rgba(139,96,16,0.05));
+    border: 1px solid rgba(200,150,40,0.25);
+    border-radius: 20px;
+    padding: 48px 40px;
+    margin-top: 40px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s ease;
+  }
+  .contact-card.visible { opacity: 1; transform: translateY(0); }
+
+  .contact-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(200,150,40,0.12);
+    text-align: left;
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+  .contact-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .contact-value {
+    color: var(--cream);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 16px 44px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+    color: var(--deep);
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.3s;
+    box-shadow: 0 8px 30px rgba(200,150,40,0.3);
+  }
+  .cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 50px rgba(200,150,40,0.5);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(200,150,40,0.12);
+  }
+  footer p {
+    color: rgba(253,246,232,0.35);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  /* Decorative mandala bg */
+  .mandala-bg {
+    position: absolute;
+    width: 700px; height: 700px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(200,150,40,0.06);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: mandalaSpin 60s linear infinite;
+  }
+  .mandala-bg::before {
+    content: '';
+    position: absolute;
+    inset: 40px;
+    border: 1px solid rgba(200,150,40,0.06);
+    border-radius: 50%;
+  }
+  .mandala-bg::after {
+    content: '';
+    position: absolute;
+    inset: 90px;
+    border: 1px solid rgba(200,150,40,0.06);
+    border-radius: 50%;
+  }
+  @keyframes mandalaSpin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(26,10,0,0.9), transparent);
+    backdrop-filter: blur(6px);
+  }
+ .nav-brand img {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  display: flex;
+  align-items: center;
+}
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(253,246,232,0.65);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+
+  @media (max-width: 580px) {
+    .nav-links { display: none; }
+    .about-inner { grid-template-columns: 1fr; }
+    .stats-row { gap: 16px; }
+    .contact-card { padding: 28px 20px; }
+  }
+
+  .social-icons {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* LEFT */
+.footer-left {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-left h2 {
+  color: #f0c94a;
+  margin-bottom: 10px;
+}
+
+.footer-left p {
+  color: rgba(253,246,232,0.7);
+}
+
+/* RIGHT */
+.footer-right {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  min-width: 300px;
+}
+
+.footer-links h3,
+.footer-contact h3 {
+  color: #c8972a;
+  margin-bottom: 10px;
+}
+
+.footer-links ul {
+  list-style: none;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: rgba(253,246,232,0.7);
+}
+
+.footer-links a:hover {
+  color: #f0c94a;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+  }
+
+  .footer-right {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+/* MENU ICON */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: #1a0a00;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: flex;
+    font-size: 28px;
+    color: #f0c94a;
+    cursor: pointer;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <div class="nav-brand">
+  <img src="dental.png" alt="Makhan Bhog Logo">
+</div>
+  <ul class="nav-links">
+      <li><a href="index.html#menu">Menu</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="hamare_baare_mein.html">Hamare Baare Mein</a></li>
+    <li><a href="sampark.html">Sampark</a></li>
+  </ul>
+  <div class="menu-toggle" id="menuToggle">☰</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="mandala-bg"></div>
+
+  <!-- Particles -->
+  <div id="particles" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1"></div>
+
+  <!-- 3D orbit -->
+  <div class="scene-3d" style="z-index:2">
+   <div class="orbit">
+  <div class="sweet-item"><div class="sweet-face sf1">🦷</div></div>
+  <div class="sweet-item"><div class="sweet-face sf2">😁</div></div>
+  <div class="sweet-item"><div class="sweet-face sf3">🪥</div></div>
+  <div class="sweet-item"><div class="sweet-face sf4">✨</div></div>
+  <div class="sweet-item"><div class="sweet-face sf5">🦷</div></div>
+  <div class="sweet-item"><div class="sweet-face sf6">😁</div></div>
+  <div class="sweet-item"><div class="sweet-face sf7">🪥</div></div>
+  <div class="sweet-item"><div class="sweet-face sf8">💎</div></div>
+</div>
+  </div>
+
+  <!-- Text overlay -->
+  <div class="hero-content" style="z-index:5">
+    <span class="logo-devanagari">॥ Family Dental Care ॥</span>
+    <div class="ornament-line"></div>
+    <h1 class="hero-title">Healthy Smile<br>Dental Clinic</h1>
+    <p class="hero-sub">Expert Dental Care — Varanasi, Uttar Pradesh</p>
+    <div class="ornament-line"></div>
+    <a href="#menu" class="hero-badge">Services Dekhein ↓</a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div id="specialty">
+  <span class="section-label revealEl">विशेषताएँ</span>
+  <h2 class="section-title revealEl">Hamari Dental Services</h2>
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marquee"></div>
+  </div>
+</div>
+
+<!-- MENU -->
+<section id="menu">
+  <span class="section-label revealEl">हमारी सेवाएं</span>
+  <h2 class="section-title revealEl">Our Dental Treatments</h2>
+  <div class="menu-grid" id="menuGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-visual revealEl">
+      <div class="plate-3d">
+        <div class="plate-base">🦷</div>
+        <div class="plate-back">😁</div>
+      </div>
+    </div>
+    <div class="about-text revealEl">
+      <span class="section-label" style="text-align:left;margin-bottom:8px">हमारे बारे में</span>
+      <h2>Varanasi ka<br>Trusted Dental Clinic</h2>
+      <p>Family Dental Care mein hum sirf ilaaj nahi karte — hum aapki muskaan ko aur bhi khoobsurat banate hain. Har treatment advanced technology aur experienced doctors ke saath kiya jaata hai.</p>
+      <p>Hamari clinic mein hygiene, safety aur patient comfort sabse pehle aata hai. Hum aapko best dental care dene ke liye hamesha taiyaar hain.</p>
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-num">50+</span>
+          <span class="stat-label">Happy Patients</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Safe & Hygienic</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">★4.5</span>
+          <span class="stat-label">Rating</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <span class="section-label revealEl">सम्पर्क करें</span>
+  <h2 class="section-title revealEl">Appointment Book Karein</h2>
+  <div class="contact-card revealEl">
+    <div class="contact-row">
+      <span class="contact-icon">📍</span>
+      <div>
+        <span class="contact-label">Pata (Address)</span>
+        <span class="contact-value">Family Dental Care, Varanasi, Uttar Pradesh</span>
+      </div>
+    </div>
+    <div class="contact-row">
+      <span class="contact-icon">🕐</span>
+      <div>
+        <span class="contact-label">Samay (Hours)</span>
+        <span class="contact-value">Subah 7:00 — Raat 10:00<br>Saptah ke saatho din khula</span>
+      </div>
+    </div>
+    <div class="contact-row">
+      <span class="contact-icon">🗺️</span>
+      <div>
+        <span class="contact-label">Google Maps</span>
+        <span class="contact-value">Varanasi, Uttar Pradesh ke dil mein</span>
+      </div>
+    </div>
+    <a href="https://maps.app.goo.gl/KEfKpsUtWqCd7aCf6" target="_blank" class="cta-btn">
+      Google Maps pe Dekhein →
+    </a>
+  </div>
+</section>
+
+<footer class="premium-footer">
+  <div class="footer-container">
+
+    <!-- LEFT SIDE -->
+    <div class="footer-left">
+      <h2>Family Dental Care</h2>
+      <p>Healthy smile ke liye trusted dental clinic – safe, hygienic aur advanced treatment.</p>
+
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="footer-right">
+
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h3>Contact</h3>
+        <p>📍 Varanasi, Uttar Pradesh</p>
+        <p>📞 +91 XXXXXXXX</p>
+        <p>🕒 7 AM – 10 PM</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Family Dental Care | All Rights Reserved</p>
+  </div>
+</footer>
+
+<script>
+
+
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.querySelector('.nav-links');
+
+if(menuToggle && navLinks){
+  menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+  });
+}
+  // ✅ ADD THIS HERE
+window.onload = function() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+};
+
+// Cursor
+
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+    rx += (e.clientX - rx) * 0.15;
+    ry += (e.clientY - ry) * 0.15;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+  });
+
+  // Smooth ring follow
+  function animRing() {
+    rx += (parseFloat(cursor.style.left||0) - rx) * 0.12;
+    ry += (parseFloat(cursor.style.top||0)  - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  // Particles
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const s = Math.random() * 4 + 2;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${Math.random()*40}%;--dur:${Math.random()*5+5}s;--delay:${Math.random()*6}s;`;
+    pc.appendChild(p);
+  }
+
+  // Card 3D hover
+document.querySelectorAll('.menu-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
+      const y = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(el => {
+      if (el.isIntersecting) el.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+
+document.querySelectorAll('.revealEl, .menu-card, .about-visual').forEach(el => {
+  if(el) obs.observe(el);
+});
+
+  // Menu data
+const items = [
+  { emoji:'🦷', name:'Teeth Cleaning', hi:'दांतों की सफाई', desc:'Professional cleaning se daant saf aur chamakdaar banaye jate hain.', price:'₹500 se', tag:'Popular' },
+
+  { emoji:'😁', name:'Teeth Whitening', hi:'दांतों की चमक बढ़ाना', desc:'Advanced whitening treatment se aapki smile bright banai jaati hai.', price:'₹1500 se', tag:'Trending' },
+
+  { emoji:'🪥', name:'Root Canal', hi:'रूट कैनाल', desc:'Dard se chutkaara aur daant ko bachane ke liye safe treatment.', price:'₹2500 se', tag:'Expert Care' },
+
+  { emoji:'🦷', name:'Dental Implants', hi:'डेंटल इम्प्लांट', desc:'Missing teeth ko replace karne ka permanent solution.', price:'₹15000 se', tag:'Premium' },
+
+  { emoji:'😁', name:'Braces & Aligners', hi:'दांत सीधा करना', desc:'Tedhe-medhe daanton ko seedha aur perfect smile dene ke liye.', price:'₹20000 se', tag:null },
+
+  { emoji:'🦷', name:'Tooth Extraction', hi:'दांत निकालना', desc:'Damage ya pain wale daant ko safely remove kiya jata hai.', price:'₹500 se', tag:null },
+
+  { emoji:'🪥', name:'Kids Dental Care', hi:'बच्चों की दांत देखभाल', desc:'Bachchon ke daanton ke liye special aur gentle treatment.', price:'₹300 se', tag:'Kids Special' },
+
+  { emoji:'😁', name:'Full Mouth Checkup', hi:'पूरा दांत जांच', desc:'Complete dental checkup aur expert consultation.', price:'₹200 se', tag:'Recommended' },
+];
+
+  const grid = document.getElementById('menuGrid');
+  items.forEach((it, i) => {
+    const d = document.createElement('div');
+  d.className = 'menu-card revealEl';
+    d.style.transitionDelay = (i * 0.07) + 's';
+    d.innerHTML = `
+      ${it.tag ? `<span class="card-tag">${it.tag}</span>` : ''}
+      <span class="card-emoji">${it.emoji}</span>
+      <div class="card-name">${it.name}</div>
+      <span class="card-name-hi">${it.hi}</span>
+      <p class="card-desc">${it.desc}</p>
+      <span class="card-price">${it.price}</span>`;
+    grid.appendChild(d);
+    obs.observe(d);
+  });
+
+  // Marquee
+ const specials = [
+  'Teeth Cleaning (दांत सफाई)',
+  'Teeth Whitening (चमक)',
+  'Root Canal (रूट कैनाल)',
+  'Dental Implants',
+  'Braces & Aligners',
+  'Tooth Extraction (दांत निकालना)',
+  'Smile Design',
+  'Kids Dental Care',
+  'Full Checkup',
+  'Emergency Care'
+];
+  const track = document.getElementById('marquee');
+  const doubled = [...specials, ...specials];
+  doubled.forEach(s => {
+    track.innerHTML += `<span class="marquee-item"><span class="marquee-dot"></span>${s}</span>`;
+  });
+</script>
+</body>
+</html>

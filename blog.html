@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Makhan Bhog Blog</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root {
+  --gold: #c8972a;
+  --gold-light: #f0c94a;
+  --gold-dark: #8a6010;
+  --cream: #fdf6e8;
+  --deep: #1a0a00;
+  --rust: #8b2500;
+}
+
+/* BODY */
+body {
+  margin: 0;
+  background: var(--deep);
+  font-family: 'Playfair Display', serif;
+  color: var(--cream);
+}
+
+/* NAV */
+nav {
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* HERO */
+.blog-hero {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.blog-hero h1 {
+  font-size: 3rem;
+  background: linear-gradient(135deg, #f0c94a, #c8972a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* BLOG GRID */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 50px;
+}
+
+/* 3D CARD */
+.blog-card {
+  background: linear-gradient(145deg, rgba(200,150,40,0.08), rgba(26,10,0,0.9));
+  border: 1px solid rgba(200,150,40,0.2);
+  border-radius: 15px;
+  padding: 20px;
+  transform-style: preserve-3d;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.blog-card:hover {
+  transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+  box-shadow: 0 20px 50px rgba(200,150,40,0.2);
+}
+
+.blog-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.blog-card h3 {
+  color: var(--gold-light);
+}
+
+.blog-card p {
+  color: rgba(253,246,232,0.7);
+}
+
+/* BUTTON */
+.read-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: 1px solid var(--gold);
+  color: var(--gold-light);
+  text-decoration: none;
+  border-radius: 30px;
+  transition: 0.3s;
+}
+
+.read-btn:hover {
+  background: var(--gold);
+  color: var(--deep);
+}
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 50px;
+}
+
+.gallery img {
+  width: 100%;
+  border-radius: 15px;
+  transition: 0.5s;
+  transform: perspective(800px) rotateY(0deg);
+  cursor: pointer;
+}
+
+.gallery img:hover {
+  transform: perspective(800px) rotateY(10deg) scale(1.05);
+  box-shadow: 0 20px 50px rgba(200,150,40,0.3);
+}
+
+ .nav-brand img {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+.premium-nav {
+  position: fixed;
+  top: 0;
+  width: 95%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(26,10,0,0.7);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(200,150,40,0.2);
+  z-index: 1000;
+}
+
+/* LOGO */
+.nav-logo img {
+  height: 50px;
+}
+
+/* LINKS */
+.nav-links {
+  display: flex;
+  gap: 50px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: rgba(253,246,232,0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  position: relative;
+  transition: 0.3s;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background: linear-gradient(90deg, #c8972a, #f0c94a);
+  transition: 0.4s;
+}
+
+.nav-links a:hover {
+  color: #f0c94a;
+}
+
+.nav-links a:hover::after {
+  width: 50%;
+}
+
+/* BUTTON */
+.nav-btn {
+    left: 10px;
+  padding: 10px 25px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #c8972a, #f0c94a);
+  color: #1a0a00;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.nav-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(200,150,40,0.4);
+}
+</style>
+</head>
+
+<body>
+
+<nav class="premium-nav">
+
+  <!-- LOGO -->
+  <div class="nav-logo">
+    <img src="dental.png" alt="Makhan Bhog">
+  </div>
+
+  <!-- LINKS -->
+  <ul class="nav-links">
+    <li><a href="index.html">Menu</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="hamare_baare_mein.html">Hamare Baare Mein</a></li>
+    <li><a href="sampark.html">Sampark</a></li>
+  </ul>
+
+  <!-- BUTTON -->
+  <a href="#" class="nav-btn">Book Appointment</a>
+
+</nav>
+
+<section class="blog-hero">
+  <h1>Dental Care Blog</h1>
+  <p>Healthy smile ke liye useful tips aur jaankari</p>
+</section>
+
+<section class="blog-grid">
+
+  <!-- 1 -->
+  <div class="blog-card">
+    <img src="Image2/1.jfif">
+    <h3>Hamari Clinic</h3>
+    <p>Modern dental clinic with clean aur hygienic environment.</p>
+    <a href="#" class="read-btn">Read More</a>
+  </div>
+
+  <!-- 2 -->
+  <div class="blog-card">
+    <img src="Image2/2.jfif">
+    <h3>Teeth Cleaning</h3>
+    <p>Regular cleaning se daant strong aur healthy rehte hain.</p>
+    <a href="#" class="read-btn">Read More</a>
+  </div>
+
+  <!-- 3 -->
+  <div class="blog-card">
+    <img src="Image2/3.jfif">
+    <h3>Teeth Whitening</h3>
+    <p>Bright aur confident smile ke liye whitening treatment.</p>
+    <a href="#" class="read-btn">Read More</a>
+  </div>
+
+  <!-- 4 -->
+  <div class="blog-card">
+    <img src="Image2/4.jfif">
+    <h3>Dental Implants</h3>
+    <p>Missing teeth ka permanent solution.</p>
+    <a href="#" class="read-btn">Read More</a>
+  </div>
+
+  <!-- 5 -->
+  <div class="blog-card">
+    <img src="Image2/5.jpg">
+    <h3>Braces & Aligners</h3>
+    <p>Perfect smile ke liye teeth alignment treatment.</p>
+    <a href="#" class="read-btn">Read More</a>
+  </div>
+
+  <!-- 6 -->
+  <div class="blog-card">
+    <img src="Image2/6.jfif">
+    <h3>Kids Dental Care</h3>
+    <p>Bachchon ke daanton ki special care aur treatment.</p>
+    <a href="#" class="read-btn">Read More</a>
+  </div>
+
+</section>
+
+<script>
+
+// 3D Mouse Move Effect
+document.querySelectorAll(".blog-card").forEach(card => {
+  card.addEventListener("mousemove", e => {
+    let x = e.offsetX;
+    let y = e.offsetY;
+
+    let rotateX = (y / 200) * 20;
+    let rotateY = (x / 200) * -20;
+
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  });
+
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "rotateX(0) rotateY(0)";
+  });
+});
+
+</script>
+
+</body>
+</html>

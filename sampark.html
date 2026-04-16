@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sampark – Makhan Bhog Sweets & Bakers</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Tiro+Devanagari+Hindi&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c8972a;
+    --gold-light: #f0c94a;
+    --gold-dark: #8a6010;
+    --cream: #fdf6e8;
+    --deep: #1a0a00;
+    --rust: #8b2500;
+    --saffron: #f5a623;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold-light);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.12s ease;
+    mix-blend-mode: difference;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(26,10,0,0.95), transparent);
+    backdrop-filter: blur(6px);
+  }
+  .nav-brand img {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  display: flex;
+  align-items: center;
+}
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(253,246,232,0.65);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold-light); }
+
+  /* ── PAGE HERO ── */
+  #page-hero {
+    min-height: 55vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding-top: 80px;
+  }
+
+  .mandala-bg {
+    position: absolute;
+    width: 700px; height: 700px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(200,150,40,0.06);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: mandalaSpin 60s linear infinite;
+  }
+  .mandala-bg::before {
+    content: '';
+    position: absolute;
+    inset: 40px;
+    border: 1px solid rgba(200,150,40,0.06);
+    border-radius: 50%;
+  }
+  .mandala-bg::after {
+    content: '';
+    position: absolute;
+    inset: 90px;
+    border: 1px solid rgba(200,150,40,0.06);
+    border-radius: 50%;
+  }
+  @keyframes mandalaSpin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gold-light);
+    opacity: 0;
+    animation: floatUp var(--dur, 6s) ease-in-out infinite var(--delay, 0s);
+  }
+  @keyframes floatUp {
+    0%   { opacity: 0; transform: translateY(0) scale(0); }
+    20%  { opacity: 0.7; }
+    80%  { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-120px) scale(1.5); }
+  }
+
+  .page-hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+  }
+
+  .logo-devanagari {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--gold-light);
+    letter-spacing: 0.15em;
+    opacity: 0;
+    animation: fadeIn 1s ease 0.3s forwards;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    background: linear-gradient(135deg, #f0c94a 0%, #c8972a 40%, #fff5cc 70%, #c8972a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0;
+    animation: slideUp 0.9s cubic-bezier(.16,1,.3,1) 0.5s forwards;
+  }
+
+  .page-sub {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: rgba(253,246,232,0.6);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-top: 12px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1s forwards;
+  }
+
+  .ornament-line {
+    width: 200px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 16px auto;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 3D Orbit BG */
+  .scene-3d-small {
+    position: absolute;
+    inset: 0;
+    perspective: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .orbit-small {
+    width: 380px; height: 380px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: orbitSpin 20s linear infinite;
+    opacity: 0.3;
+  }
+  @keyframes orbitSpin {
+    from { transform: rotateY(0deg) rotateX(12deg); }
+    to   { transform: rotateY(360deg) rotateX(12deg); }
+  }
+  .sweet-item {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform-style: preserve-3d;
+    width: 60px; height: 60px;
+    margin: -30px;
+  }
+  .sweet-face {
+    width: 60px; height: 60px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 8px 30px rgba(200,150,40,0.4);
+    backface-visibility: hidden;
+    border: 1px solid rgba(240,200,80,0.3);
+  }
+  .sweet-item:nth-child(1) { transform: rotateY(0deg)   translateZ(160px); }
+  .sweet-item:nth-child(2) { transform: rotateY(60deg)  translateZ(160px); }
+  .sweet-item:nth-child(3) { transform: rotateY(120deg) translateZ(160px); }
+  .sweet-item:nth-child(4) { transform: rotateY(180deg) translateZ(160px); }
+  .sweet-item:nth-child(5) { transform: rotateY(240deg) translateZ(160px); }
+  .sweet-item:nth-child(6) { transform: rotateY(300deg) translateZ(160px); }
+  .sf1 { background: radial-gradient(circle at 30% 30%, #d4a843, #8b5e00); }
+  .sf2 { background: radial-gradient(circle at 30% 30%, #e8c0c0, #9b4040); }
+  .sf3 { background: radial-gradient(circle at 30% 30%, #ffe0a0, #c08000); }
+  .sf4 { background: radial-gradient(circle at 30% 30%, #c8e4c8, #3a7a3a); }
+  .sf5 { background: radial-gradient(circle at 30% 30%, #f8d0a8, #b86020); }
+  .sf6 { background: radial-gradient(circle at 30% 30%, #e0d0f0, #7040b0); }
+
+  /* ── REVEAL ── */
+  .revealEl {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s ease;
+  }
+  .revealEl.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── CONTACT SECTION ── */
+  #contact-main {
+    padding: 80px 24px 60px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .section-center-label {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    text-align: center;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 60px;
+  }
+
+  /* Two column layout */
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  /* ── 3D INFO CARD ── */
+  .contact-info-3d {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: all 0.8s ease;
+    perspective: 700px;
+  }
+  .contact-info-3d.visible { opacity: 1; transform: translateX(0); }
+
+  .contact-card-3d {
+    background: linear-gradient(145deg, rgba(200,150,40,0.1), rgba(139,96,16,0.05));
+    border: 1px solid rgba(200,150,40,0.25);
+    border-radius: 20px;
+    padding: 40px 36px;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+  }
+  .contact-card-3d:hover {
+    transform: rotateX(2deg) rotateY(-2deg);
+    border-color: rgba(200,150,40,0.45);
+    box-shadow: 0 20px 60px rgba(200,150,40,0.12);
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(200,150,40,0.12);
+  }
+  .contact-row:last-of-type { border-bottom: none; }
+
+  .contact-icon-wrap {
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(200,150,40,0.2), rgba(200,150,40,0.05));
+    border: 1px solid rgba(200,150,40,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    animation: iconPulse 3s ease-in-out infinite;
+  }
+  .contact-icon-wrap:nth-child(1n) { animation-delay: 0s; }
+  .contact-icon-wrap:nth-child(2n) { animation-delay: 0.5s; }
+  .contact-icon-wrap:nth-child(3n) { animation-delay: 1s; }
+  @keyframes iconPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,150,40,0); }
+    50%       { box-shadow: 0 0 0 6px rgba(200,150,40,0.08); }
+  }
+
+  .contact-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .contact-value {
+    color: var(--cream);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .cta-btn {
+    display: block;
+    margin-top: 28px;
+    padding: 16px 44px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+    color: var(--deep);
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.3s;
+    box-shadow: 0 8px 30px rgba(200,150,40,0.3);
+    text-align: center;
+  }
+  .cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 50px rgba(200,150,40,0.5);
+  }
+
+  /* ── HOURS + VISUAL SIDE ── */
+  .contact-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: all 0.8s ease 0.15s;
+  }
+  .contact-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* Hours card */
+  .hours-card {
+    background: linear-gradient(145deg, rgba(200,150,40,0.08), rgba(26,10,0,0.9));
+    border: 1px solid rgba(200,150,40,0.2);
+    border-radius: 20px;
+    padding: 36px 32px;
+    margin-bottom: 24px;
+  }
+
+  .hours-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(200,150,40,0.08);
+    font-size: 0.95rem;
+  }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-day { color: rgba(253,246,232,0.65); }
+  .hours-time { color: var(--cream); font-weight: 500; }
+  .hours-open {
+    display: inline-block;
+    background: rgba(60,150,60,0.2);
+    border: 1px solid rgba(60,200,60,0.3);
+    color: #7de87d;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-left: 8px;
+  }
+
+  /* Live clock */
+  .live-time-card {
+    background: linear-gradient(145deg, rgba(200,150,40,0.08), rgba(26,10,0,0.9));
+    border: 1px solid rgba(200,150,40,0.2);
+    border-radius: 20px;
+    padding: 28px 32px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .live-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .live-clock {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+  }
+  .live-status {
+    margin-top: 10px;
+    font-size: 0.9rem;
+  }
+  .status-open { color: #7de87d; }
+  .status-closed { color: #e87d7d; }
+
+  /* 3D Spinning sweet display */
+  .sweet-display-card {
+    background: linear-gradient(145deg, rgba(200,150,40,0.06), rgba(26,10,0,0.9));
+    border: 1px solid rgba(200,150,40,0.15);
+    border-radius: 20px;
+    padding: 28px;
+    text-align: center;
+    perspective: 600px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .spinning-plate {
+    width: 140px; height: 140px;
+    margin: 0 auto 16px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: plateSpin 10s ease-in-out infinite;
+  }
+  @keyframes plateSpin {
+    0%, 100% { transform: rotateX(20deg) rotateY(0deg); }
+    50%       { transform: rotateX(20deg) rotateY(180deg); }
+  }
+  .plate-front {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #e8c060, #8b5e00);
+    box-shadow: 0 0 30px rgba(200,150,40,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem;
+    backface-visibility: hidden;
+    position: absolute;
+  }
+  .plate-rear {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #c86030, #500000);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    position: absolute;
+  }
+
+  .sweet-display-text {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 1.1rem;
+    color: var(--gold-light);
+    margin-top: 8px;
+  }
+  .sweet-display-sub {
+    font-size: 0.85rem;
+    color: rgba(253,246,232,0.5);
+    margin-top: 4px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── MAP SECTION ── */
+  #map-section {
+    padding: 60px 24px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .map-card {
+    background: linear-gradient(145deg, rgba(200,150,40,0.08), rgba(26,10,0,0.9));
+    border: 1px solid rgba(200,150,40,0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s ease;
+  }
+  .map-card.visible { opacity: 1; transform: translateY(0); }
+
+  .map-header {
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid rgba(200,150,40,0.12);
+  }
+  .map-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(200,150,40,0.25), rgba(200,150,40,0.05));
+    border: 1px solid rgba(200,150,40,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+  }
+  .map-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--gold-light);
+  }
+  .map-subtitle { font-size: 0.88rem; color: rgba(253,246,232,0.5); margin-top: 2px; }
+
+  .map-embed {
+    width: 100%;
+    height: 320px;
+    border: none;
+    display: block;
+    filter: sepia(0.4) saturate(0.8) hue-rotate(10deg) brightness(0.85);
+    transition: filter 0.3s;
+  }
+  .map-embed:hover { filter: sepia(0.1) saturate(1) brightness(0.95); }
+
+  .map-footer {
+    padding: 20px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .map-address {
+    color: rgba(253,246,232,0.65);
+    font-size: 0.95rem;
+  }
+  .map-btn {
+    display: inline-block;
+    padding: 10px 24px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+    color: var(--deep);
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 40px;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.3s;
+    box-shadow: 0 6px 20px rgba(200,150,40,0.3);
+  }
+  .map-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(200,150,40,0.5);
+  }
+
+  /* ── FAQ ── */
+  #faq {
+    padding: 60px 24px 80px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(200,150,40,0.12);
+    padding: 20px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+    cursor: pointer;
+  }
+  .faq-item.visible { opacity: 1; transform: translateY(0); }
+
+  .faq-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .faq-arrow {
+    color: var(--gold);
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .faq-item.open .faq-arrow { transform: rotate(45deg); }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    color: rgba(253,246,232,0.65);
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 200px;
+    padding-top: 14px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(200,150,40,0.12);
+  }
+  footer p { color: rgba(253,246,232,0.35); font-size: 0.85rem; letter-spacing: 0.05em; }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 680px) {
+    .contact-layout { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .map-footer { flex-direction: column; text-align: center; }
+  }
+  .footer-container {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* LEFT */
+.footer-left {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-left h2 {
+  color: #f0c94a;
+  margin-bottom: 10px;
+}
+
+.footer-left p {
+  color: rgba(253,246,232,0.7);
+}
+
+/* RIGHT */
+.footer-right {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  min-width: 300px;
+}
+
+.footer-links h3,
+.footer-contact h3 {
+  color: #c8972a;
+  margin-bottom: 10px;
+}
+
+.footer-links ul {
+  list-style: none;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: rgba(253,246,232,0.7);
+}
+
+.footer-links a:hover {
+  color: #f0c94a;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+  }
+
+  .footer-right {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+    <div class="nav-brand">
+  <img src="dental.png" alt="Makhan Bhog Logo">
+</div>
+  <ul class="nav-links">
+    <li><a href="blog.html">blog</a></li>
+    <li><a href="index.html#menu">Menu</a></li>
+    <li><a href="hamare_baare_mein.html">Hamare Baare Mein</a></li>
+    <li><a href="sampark.html" class="active">Sampark</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<section id="page-hero">
+  <div class="mandala-bg"></div>
+  <div id="particles" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1"></div>
+
+ <div class="scene-3d-small">
+    <div class="orbit-small">
+      <div class="sweet-item"><div class="sweet-face sf1">📍</div></div>
+      <div class="sweet-item"><div class="sweet-face sf2">🕐</div></div>
+      <div class="sweet-item"><div class="sweet-face sf3">🦷</div></div>
+      <div class="sweet-item"><div class="sweet-face sf4">🗺️</div></div>
+      <div class="sweet-item"><div class="sweet-face sf5">📞</div></div>
+      <div class="sweet-item"><div class="sweet-face sf6">✉️</div></div>
+    </div>
+  </div>
+
+  <div class="page-hero-content" style="z-index:5">
+    <span class="logo-devanagari">॥ सम्पर्क करें ॥</span>
+    <div class="ornament-line"></div>
+    <h1 class="page-title">Contact Our Clinic</h1>
+    <p class="page-sub">Book Appointment — Varanasi</p>
+    <div class="ornament-line"></div>
+  </div>
+</section>
+
+<!-- CONTACT MAIN -->
+<section id="contact-main">
+  <span class="section-center-label revealEl">सम्पर्क</span>
+  <h2 class="section-title revealEl">Appointment Book Karein</h2>
+
+  <div class="contact-layout">
+
+    <!-- LEFT: Info Card -->
+    <div class="contact-info-3d" id="infoCard">
+      <div class="contact-card-3d">
+        <div class="contact-row">
+          <div class="contact-icon-wrap">📍</div>
+          <div>
+            <span class="contact-label">Pata (Address)</span>
+            <span class="contact-value">Family Dental Care<br>Varanasi, Uttar Pradesh</span>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon-wrap">🕐</div>
+          <div>
+            <span class="contact-label">Clinic Hours</span>
+            <span class="contact-value">
+              Subah 7:00 — Raat 10:00
+              <span class="hours-open">Open</span><br>
+              <span style="font-size:0.88rem;color:rgba(253,246,232,0.5)">Monday to Saturday</span>
+            </span>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon-wrap">📞</div>
+          <div>
+            <span class="contact-label">Call Us</span>
+            <span class="contact-value">+91 9876543210</span>
+          </div>
+        </div>
+          <div class="contact-row">
+          <div class="contact-icon-wrap">🦷</div>
+          <div>
+            <span class="contact-label">Services</span>
+            <span class="contact-value">Cleaning, RCT, Implants, Braces</span>
+          </div>
+        </div>
+        <a href="https://wa.me/9109453473958" target="_blank" class="cta-btn">
+  WhatsApp Par Appointment →
+</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: Hours + Live Clock + 3D Sweet -->
+    <div class="contact-right" id="rightCol">
+
+      <!-- Live Clock -->
+      <div class="live-time-card">
+        <span class="live-label">Varanasi — Current Time</span>
+        <div class="live-clock" id="liveClock">--:--:--</div>
+        <div class="live-status" id="liveStatus">Clinic Open</div>
+      </div>
+
+      <!-- Hours -->
+      <div class="hours-card">
+        <div class="hours-title">🕐 Opening Hours</div>
+        <div class="hours-row">
+          <span class="hours-day">Monday – Saturday</span>
+          <span class="hours-time">9:00 AM – 8:00 PM</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">Sunday</span>
+          <span class="hours-time">Closed</span>
+        </div>
+        <div class="hours-row">
+          <span class="hours-day">book -- </span>
+          <span class="hours-time">Seedha Sampark Karein</span>
+        </div>
+      </div>
+
+      <!-- 3D Sweet Display -->
+           <div class="sweet-display-card">
+        <div class="spinning-plate">
+          <div class="plate-front">🦷</div>
+          <div class="plate-rear">😁</div>
+        </div>
+        <div class="sweet-display-text">Healthy Smile Everyday</div>
+        <div class="sweet-display-sub">Expert Dental Care</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MAP -->
+<section id="map-section">
+  <div class="map-card revealEl" id="mapCard">
+    <div class="map-header">
+      <div class="map-icon">🗺️</div>
+      <div>
+        <div class="map-title">Find Our Clinic</div>
+        <div class="map-subtitle">Varanasi, Uttar Pradesh</div>
+      </div>
+    </div>
+    <iframe
+      class="map-embed"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d229588.52478478264!2d82.7779825!3d25.3176452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e2db76febcf4d%3A0x68131710853a5e55!2sVaranasi%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1712844000000"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+    <div class="map-footer">
+      <span class="map-address">📍 Family Dental Care, Varanasi</span>
+      <a href="https://maps.app.goo.gl/Rw8caUg7GR7mshfh8" target="_blank" class="map-btn">
+       Open in Maps →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <span class="section-center-label revealEl">FAQs</span>
+  <h2 class="section-title revealEl" style="margin-bottom:32px">Common Questions</h2>
+
+  <div class="faq-item revealEl" onclick="toggleFaq(this)">
+    <div class="faq-question">
+     Kya appointment lena zaroori hai?
+      <span class="faq-arrow">+</span>
+    </div>
+    <div class="faq-answer">Haan, appointment lene se aapka wait time kam ho jata hai.</div>
+  </div>
+
+  <div class="faq-item revealEl" style="transition-delay:0.05s" onclick="toggleFaq(this)">
+    <div class="faq-question">
+   Teeth cleaning kitne time me hoti hai?
+      <span class="faq-arrow">+</span>
+    </div>
+    <div class="faq-answer">Usually 30–45 minutes lagte hain.</div>
+  </div>
+
+  <div class="faq-item revealEl" style="transition-delay:0.1s" onclick="toggleFaq(this)">
+    <div class="faq-question">
+      Kya treatment safe hai?
+      <span class="faq-arrow">+</span>
+    </div>
+    <div class="faq-answer">Bilkul, hum modern aur hygienic equipment use karte hain.</div>
+  </div>
+
+  <div class="faq-item revealEl" style="transition-delay:0.15s" onclick="toggleFaq(this)">
+    <div class="faq-question">
+    Emergency me kya karein?
+      <span class="faq-arrow">+</span>
+    </div>
+    <div class="faq-answer">Turant call karein ya clinic visit karein.</div>
+  </div>
+
+  <div class="faq-item revealEl" style="transition-delay:0.2s" onclick="toggleFaq(this)">
+    <div class="faq-question">
+      Dukaan kab khuli rehti hai?
+      <span class="faq-arrow">+</span>
+    </div>
+    <div class="faq-answer">Hum subah 7:00 baje se raat 10:00 baje tak khule rehte hain — saptah ke saatho din. Tyohaar par thodi jaldi khulte hain aur der se band hote hain.</div>
+  </div>
+</section>
+<footer class="premium-footer">
+  <div class="footer-container">
+
+    <!-- LEFT SIDE -->
+    <div class="footer-left">
+      <h2>Family Dental Care</h2>
+      <p>Healthy smile ke liye trusted dental clinic.</p>
+
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="footer-right">
+
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h3>Contact</h3>
+        <p>📍 Varanasi, Uttar Pradesh</p>
+        <p>📞 +91 XXXXXXXX</p>
+        <p>🕒 7 AM – 10 PM</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 Family Dental Care| All Rights Reserved</p>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  function animRing() {
+    rx += (parseFloat(cursor.style.left||0) - rx) * 0.12;
+    ry += (parseFloat(cursor.style.top||0)  - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  // Particles
+  const pc = document.getElementById('particles');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const s = Math.random() * 4 + 2;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${Math.random()*40}%;--dur:${Math.random()*5+5}s;--delay:${Math.random()*6}s;`;
+    pc.appendChild(p);
+  }
+
+  // Live Clock (IST)
+  function updateClock() {
+    const now = new Date();
+    const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const h = String(ist.getHours()).padStart(2,'0');
+    const m = String(ist.getMinutes()).padStart(2,'0');
+    const s = String(ist.getSeconds()).padStart(2,'0');
+    document.getElementById('liveClock').textContent = `${h}:${m}:${s}`;
+
+    const totalMins = ist.getHours() * 60 + ist.getMinutes();
+    const open = 7 * 60;  // 7:00 AM
+    const close = 22 * 60; // 10:00 PM
+    const status = document.getElementById('liveStatus');
+    if (totalMins >= open && totalMins < close) {
+      status.innerHTML = '<span class="status-open">✦ Abhi Khula Hai</span>';
+    } else {
+      status.innerHTML = '<span class="status-closed">✦ Abhi Band Hai — Kal Subah 7 Baje Aayein</span>';
+    }
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(el => {
+      if (el.isIntersecting) el.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.revealEl, .faq-item, #infoCard, #rightCol, #mapCard').forEach(el => obs.observe(el));
+
+  // FAQ toggle
+  function toggleFaq(item) {
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // 3D card hover tilt
+  const card3d = document.querySelector('.contact-card-3d');
+  if (card3d) {
+    card3d.addEventListener('mousemove', e => {
+      const r = card3d.getBoundingClientRect();
+      const x = ((e.clientY - r.top) / r.height - 0.5) * -4;
+      const y = ((e.clientX - r.left) / r.width - 0.5) * 4;
+      card3d.style.transform = `rotateX(${x}deg) rotateY(${y}deg)`;
+    });
+    card3d.addEventListener('mouseleave', () => {
+      card3d.style.transform = '';
+    });
+  }
+</script>
+</body>
+</html>
